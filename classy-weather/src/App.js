@@ -180,7 +180,9 @@ class GetWeather extends React.Component {
           {isLoading && <p className="loading">Is loading...</p>}
           {error && <p className="error">{error}</p>}
         </div>
-        <button onClick={() => this.fetchWeather(location)}>GET WEATHER</button>
+        <button onClick={() => this.fetchWeather(location)}>
+          GET WEATHERrrr
+        </button>
       </>
     );
   }
