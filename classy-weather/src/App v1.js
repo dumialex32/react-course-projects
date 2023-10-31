@@ -6,13 +6,17 @@ import { fetchGethWeather } from "./fetchGetWeather";
 /// App ///
 
 class App extends React.Component {
-  state = {
-    location: "",
-    error: "",
-    weather: {},
-    isLoading: false,
-    displayLocation: "",
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      location: "",
+      error: "",
+      weather: {},
+      isLoading: false,
+      displayLocation: "",
+    };
+  }
 
   handleLocation = (locData) => {
     this.setState({ location: locData });
@@ -34,17 +38,16 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <GetWeather>
-          <Input
-            onHandleLocation={this.handleLocation}
-            location={this.state.location}
-            onSetError={this.handleSetError}
-            onSetIsLoading={this.handleSetIsLoading}
-            onSetWeather={this.handleSetWeather}
-            onSetDisplayLocation={this.handleSetDisplayLocation}
-            onGetFetch={this.getFetch}
-          />
-        </GetWeather>
+        <GetWeather
+          onHandleLocation={this.handleLocation}
+          location={this.state.location}
+          error={this.state.error}
+          isLoading={this.state.isLoading}
+          onSetError={this.handleSetError}
+          onSetIsLoading={this.handleSetIsLoading}
+          onSetWeather={this.handleSetWeather}
+          onSetDisplayLocation={this.handleSetDisplayLocation}
+        ></GetWeather>
 
         {this.state.weather.weathercode && (
           <WeatherDisplay displayLocation={this.state.displayLocation}>
@@ -68,53 +71,29 @@ class App extends React.Component {
 ////// GetWeather /////
 
 class GetWeather extends React.Component {
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.location !== this.props.location) {
-  //     fetchGethWeather(this.props);
-  //     localStorage.setItem("location", JSON.stringify(this.props.location));
-  //   }
-  // }
+  getWeather = (location) => {
+    fetchGethWeather(location, this.props);
+  };
 
   render() {
-    const { children } = this.props;
+    const { onHandleLocation, location, error, isLoading, children } =
+      this.props;
 
     return (
       <>
         <h1>Classy Weather</h1>
-        {children}
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Your location..."
+            value={location}
+            onChange={(e) => onHandleLocation(e.target.value)}
+          ></input>
+          {isLoading && <p className="loading">Is loading...</p>}
+          {error && <p className="error">{error}</p>}
+        </div>
+        <button onClick={() => this.getWeather(location)}>GET WEATHER</button>
       </>
-    );
-  }
-}
-
-class Input extends React.Component {
-  componentDidMount() {
-    const storedItem = localStorage.getItem("location") || "";
-    this.props.onHandleLocation(storedItem);
-
-    fetchGethWeather(this.props, storedItem);
-  }
-
-  handleFetchWeather = (location) => {
-    this.props.onHandleLocation(location);
-    console.log(location);
-    fetchGethWeather(this.props, location);
-    localStorage.setItem("location", location);
-  };
-
-  render() {
-    const { error, isLoading, location } = this.props;
-    return (
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Your location..."
-          value={location}
-          onChange={(e) => this.handleFetchWeather(e.target.value)}
-        ></input>
-        {isLoading && <p className="loading">Is loading...</p>}
-        {error && <p className="error">{error}</p>}
-      </div>
     );
   }
 }
@@ -122,10 +101,6 @@ class Input extends React.Component {
 ////// WeatherDisplay /////
 
 class WeatherDisplay extends React.Component {
-  componentWillUnmount() {
-    console.log("Weather is unmounting");
-  }
-
   render() {
     const { displayLocation } = this.props;
 
@@ -143,6 +118,7 @@ class WeatherDisplay extends React.Component {
 class Weather extends React.Component {
   render() {
     const { date, maxTemp, minTemp, weathercode, isToday } = this.props;
+    console.log(date, isToday);
 
     return (
       <li className="list-item">

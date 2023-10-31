@@ -7,7 +7,6 @@ const timeout = function (s) {
 };
 
 export function getWeatherIcon(wmoCode) {
-  console.log(wmoCode);
   const icons = new Map([
     [[0], "☀️"],
     [[1], "🌤"],
@@ -51,7 +50,7 @@ export const ajax = async function (url, dataObj = undefined) {
         })
       : fetch(url);
 
-    const res = await Promise.race([timeout(0.5), fetchPro]);
+    const res = await Promise.race([timeout(3), fetchPro]);
 
     if (!res.ok) throw new Error("A problem during fetching has occured");
 

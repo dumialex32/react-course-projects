@@ -1,9 +1,14 @@
 import { ajax, getFlagEmoji } from "./helpers";
 
-export const fetchGethWeather = async (location, props) => {
+export const fetchGethWeather = async (props, location) => {
+  console.log(location);
+  console.log("fired");
   const { onSetError, onSetIsLoading, onSetWeather, onSetDisplayLocation } =
     props;
-  if (!location || location.length <= 1) return;
+  if (location.length <= 2) {
+    return onSetWeather("");
+  }
+
   try {
     onSetIsLoading(true);
     onSetError("");
