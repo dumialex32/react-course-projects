@@ -1,9 +1,13 @@
-function Error() {
+export function Error({ errorMsg, dispatch }) {
   return (
-    <p className="error">
-      <span>💥</span> There was an error fecthing questions.
-    </p>
+    <>
+      <p className="error">{errorMsg}</p>
+      <button
+        className="btn"
+        onClick={() => dispatch({ type: "setOpen", payload: false })}
+      >
+        Back
+      </button>
+    </>
   );
 }
-
-export default Error;

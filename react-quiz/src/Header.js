@@ -1,10 +1,8 @@
-function Header() {
+export function Header() {
   return (
-    <header className='app-header'>
-      <img src='logo512.png' alt='React logo' />
-      <h1>The React Quiz</h1>
+    <header className="header">
+      <img className="logo" alt="logo" src="/logo.png" />
+      <h1>THE REACT QUIZ</h1>
     </header>
   );
 }
-
-export default Header;

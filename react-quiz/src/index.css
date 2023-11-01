@@ -131,7 +131,18 @@ input {
   cursor: pointer;
 }
 
-.timer {
+.countdown {
   align-self: flex-start;
   background-color: #343a40;
+  cursor: auto;
+}
+
+.loader,
+.error {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.error {
+  color: rgb(173, 77, 77);
 }

@@ -1,13 +1,42 @@
 import { useState, useEffect, useReducer } from "react";
+import { Header } from "./Header.js";
+import { Introduction } from "./Introduction.js";
+import { Main } from "./Main.js";
+import { Input } from "./Input.js";
+import { Quiz } from "./Quiz.js";
+import { Error } from "./Error.js";
+import { Loader } from "./Loader.js";
+import { CountDown } from "./CountDown.js";
 
 const initialState = {
   isOpen: false,
+  min: 5,
+  sec: 0,
+  questions: [],
+  error: "",
+  isLoading: false,
 };
 
 function reducer(state, action) {
   switch (action.type) {
     case "setOpen":
-      return { ...state, isOpen: !state.isOpen };
+      return { ...state, isOpen: action.payload };
+
+    case "setCountDown":
+      if (state.sec === 0) {
+        return { ...state, sec: 59, min: state.min - 1 };
+      } else {
+        return { ...state, sec: state.sec - 1 };
+      }
+
+    case "setQuestions":
+      return { ...state, questions: action.payload };
+
+    case "setError":
+      return { ...state, error: action.payload };
+
+    case "setIsLoading":
+      return { ...state, isLoading: action.payload };
 
     default:
       throw new Error("Unknown action");
@@ -16,75 +45,26 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { isOpen, min, sec, questions, isLoading, error } = state;
 
-  const { isOpen } = state;
-  console.log(isOpen);
   return (
     <div className="app">
       <Header />
-      {!isOpen ? (
+      {!isOpen && isLoading && <Loader />}
+      {!isOpen && !isLoading ? (
         <Introduction dispatch={dispatch} />
       ) : (
-        <Main>
-          <Input />
-          <Quiz />
-        </Main>
+        <>
+          {error && <Error errorMsg={error} dispatch={dispatch} />}
+          {!error && !isLoading && (
+            <Main>
+              <Input />
+              <Quiz questions={questions} />
+              {/* <CountDown dispatch={dispatch} min={min} sec={sec} /> */}
+            </Main>
+          )}
+        </>
       )}
-    </div>
-  );
-}
-
-function Header() {
-  return (
-    <header className="header">
-      <img className="logo" alt="logo" src="/logo.png" />
-      <h1>THE REACT QUIZ</h1>
-    </header>
-  );
-}
-
-function Main({ children }) {
-  return <div className="main">{children}</div>;
-}
-
-function Introduction({ dispatch }) {
-  return (
-    <div className="introduction-container">
-      <div className="introduction">
-        <h2>Welcome to The React Quiz!</h2>
-        <h3>15 questions to test your react mastery</h3>
-      </div>
-
-      <button className="btn" onClick={() => dispatch({ type: "setOpen" })}>
-        Let's start!
-      </button>
-    </div>
-  );
-}
-
-function Input() {
-  return (
-    <div className="input-container">
-      <input type="range" min="0" max="15"></input>
-      <p className="question-num">Question x / 15</p>
-      <p className="points">x / 280 points</p>
-    </div>
-  );
-}
-
-function Quiz() {
-  return (
-    <div className="quiz-container">
-      <h3 className="question">Which is the most popular js framework ?</h3>
-
-      <ul className="answer-list">
-        <li className="answer">React</li>
-        <li className="answer">Vue</li>
-        <li className="answer">Angular</li>
-        <li className="answer">Other</li>
-      </ul>
-
-      <p className="btn timer">timer</p>
     </div>
   );
 }
