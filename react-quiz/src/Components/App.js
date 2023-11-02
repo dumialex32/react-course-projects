@@ -5,6 +5,8 @@ import Error from "./Error";
 import Main from "./Main";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
+import ButtonNext from "./ButtonNext";
+import ProgressBar from "./ProgressBar";
 
 const initialState = {
   questions: [],
@@ -12,6 +14,8 @@ const initialState = {
   // 'loading', 'error', 'ready', 'active', 'finished
   status: "loading",
   index: 0,
+  answer: null,
+  points: 0,
 };
 
 function reducer(state, action) {
@@ -25,16 +29,37 @@ function reducer(state, action) {
     case "start":
       return { ...state, status: "active" };
 
+    case "newAnswer":
+      const curQuestion = state.questions.at(state.index);
+      const isCorrect = action.payload === curQuestion.correctOption;
+
+      return {
+        ...state,
+        answer: action.payload,
+        points: isCorrect ? state.points + curQuestion.points : state.points,
+      };
+
+    case "changeQuestion":
+      return {
+        ...state,
+        index:
+          state.index < state.questions.length - 1
+            ? state.index + 1
+            : state.index,
+        answer: null,
+      };
+
     default:
       throw new Error("Unknown action");
   }
 }
 
 export default function App() {
-  const [{ questions, status, index }, dispatch] = useReducer(
+  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
     reducer,
     initialState
   );
+  console.log(answer);
 
   const numQuestions = questions.length;
 
@@ -59,7 +84,17 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Question question={questions[index]} />}
+        {status === "active" && (
+          <>
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <ProgressBar questions={questions} index={index} points={points} />
+            <ButtonNext answer={answer} dispatch={dispatch} />
+          </>
+        )}
       </Main>
     </div>
   );
