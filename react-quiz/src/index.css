@@ -100,7 +100,7 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.4rem;
+  gap: 1.8rem;
 }
 
 .answer-list {
@@ -108,27 +108,40 @@ input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
   list-style: none;
   width: 100%;
-}
-
-.answer {
-  background-color: #495057;
-  width: 100%;
-
-  padding: 1.2rem 2.4rem;
-  border-radius: 100px;
 }
 
 .btn {
   border: none;
   background-color: #495057;
-  padding: 1.2rem 2.4rem;
+  padding: 1rem 2.4rem;
   border-radius: 100px;
   color: inherit;
   box-shadow: 0 0 2px 1px rgba(173, 181, 189, 0.616);
   cursor: pointer;
+}
+
+.btn--answer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.btn--answer:hover {
+  background-color: #fff;
+  color: #495057;
+}
+
+.answer {
+  font-size: 1.4rem;
+}
+
+.btn--next {
+  align-self: flex-end;
 }
 
 .countdown {
