@@ -8,6 +8,8 @@ import Question from "./Question";
 import ButtonNext from "./ButtonNext";
 import ProgressBar from "./ProgressBar";
 import FinishScreen from "./FinishScreen";
+import ButtonReset from "./ButtonReset";
+import CountDown from "./CountDown";
 
 const initialState = {
   questions: [],
@@ -18,6 +20,8 @@ const initialState = {
   answer: null,
   points: 0,
   highscore: 0,
+  min: 5,
+  sec: 0,
 };
 
 function reducer(state, action) {
@@ -56,14 +60,26 @@ function reducer(state, action) {
           state.points > state.highscore ? state.points : state.highscore,
       };
 
+    case "restart":
+      return { ...initialState, questions: state.questions, status: "ready" };
+
+    case "setCountdown":
+      return {
+        ...state,
+        min: state.sec === 0 ? state.min - 1 : state.min,
+        sec: state.sec === 0 ? 59 : state.sec - 1,
+      };
+
     default:
       throw new Error("Unknown action");
   }
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, points, highscore }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { questions, status, index, answer, points, highscore, min, sec },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
   const maxPoints = questions.reduce(
@@ -112,6 +128,7 @@ export default function App() {
               numQuestions={numQuestions}
               index={index}
             />
+            <CountDown min={min} sec={sec} dispatch={dispatch} />
           </>
         )}
         {status === "finished" && (
@@ -119,7 +136,9 @@ export default function App() {
             points={points}
             maxPoints={maxPoints}
             highscore={highscore}
-          />
+          >
+            <ButtonReset dispatch={dispatch} />
+          </FinishScreen>
         )}
       </Main>
     </div>

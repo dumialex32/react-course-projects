@@ -4,6 +4,7 @@ export default function FinishScreen({
   dispatch,
   numQuestions,
   highscore,
+  children,
 }) {
   const percentage = (points / maxPoints) * 100;
   let rank =
@@ -19,6 +20,9 @@ export default function FinishScreen({
         {` (${Math.ceil(percentage)}%)`} {rank}
       </p>
       <p className="highscore">HIGHSCORE: {highscore}</p>
+
+      {/* BTN RESET */}
+      {children}
     </>
   );
 }
