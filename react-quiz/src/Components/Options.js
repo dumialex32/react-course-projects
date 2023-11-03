@@ -7,7 +7,9 @@ function Options({ question, dispatch, answer }) {
           key={option}
           className={`btn btn-option ${
             isAnswer && i === answer ? "answer" : ""
-          } ${isAnswer && i === question.correctOption ? "correct" : "wrong"}
+          } ${
+            isAnswer ? (i === question.correctOption ? "correct" : "wrong") : ""
+          }
            `}
           onClick={() => dispatch({ type: "newAnswer", payload: i })}
           disabled={isAnswer}
