@@ -119,6 +119,10 @@ input {
   width: 100%;
 }
 
+.answer-list li {
+  width: 100%;
+}
+
 .btn {
   border: none;
   background-color: #495057;
@@ -140,6 +144,7 @@ input {
 .btn-answer:hover {
   background-color: #fff;
   color: #495057;
+  transform: translateX(10px);
 }
 
 .answer {
@@ -147,7 +152,7 @@ input {
 }
 
 .answer-selected {
-  transform: translateX(10px);
+  transform: translateX(25px);
 }
 
 .btn-answer.correct {
@@ -156,6 +161,14 @@ input {
 
 .btn-answer.wrong {
   background-color: #ffa94d;
+}
+
+.btn-answer:hover:disabled {
+  transform: none;
+}
+
+.answer-selected:hover:disabled {
+  transform: translateX(25px);
 }
 
 .btn--next {

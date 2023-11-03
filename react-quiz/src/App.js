@@ -48,6 +48,7 @@ function reducer(state, action) {
           state.index === state.questions.length - 1
             ? state.index
             : state.index + 1,
+        answer: null,
       };
 
     case "setAnswer":
@@ -85,7 +86,7 @@ export default function App() {
                 answer={answer}
               />
               {/* <CountDown dispatch={dispatch} min={min} sec={sec} /> */}
-              {<ButtonNext dispatch={dispatch} answer={answer} />}
+              <ButtonNext dispatch={dispatch} answer={answer} />
             </Main>
           )}
         </>
