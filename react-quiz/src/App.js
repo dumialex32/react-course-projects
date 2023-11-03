@@ -1,11 +1,12 @@
 import { useState, useEffect, useReducer } from "react";
-import { Header } from "./Header.js";
-import { Introduction } from "./Introduction.js";
-import { Main } from "./Main.js";
-import { Quiz } from "./Quiz.js";
-import { Error } from "./Error.js";
-import { Loader } from "./Loader.js";
-import { CountDown } from "./CountDown.js";
+import { Header } from "./components/Header.js";
+import { Introduction } from "./components/Introduction.js";
+import { Main } from "./components/Main.js";
+import ButtonNext from "./components/ButtonNext.js";
+import { Quiz } from "./components/Quiz.js";
+import { Error } from "./components/Error.js";
+import { Loader } from "./components/Loader.js";
+import { CountDown } from "./components/CountDown.js";
 import { fetchQuestions } from "./fetchQuestions.js";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   error: "",
   isLoading: false,
   index: 0,
+  answer: null,
 };
 
 function reducer(state, action) {
@@ -48,6 +50,9 @@ function reducer(state, action) {
             : state.index + 1,
       };
 
+    case "setAnswer":
+      return { ...state, answer: action.payload };
+
     default:
       throw new Error("Unknown action");
   }
@@ -55,7 +60,8 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isOpen, min, sec, questions, isLoading, error, index } = state;
+  const { isOpen, min, sec, questions, isLoading, error, index, answer } =
+    state;
 
   useEffect(() => {
     fetchQuestions(dispatch);
@@ -72,8 +78,14 @@ export default function App() {
           {error && <Error errorMsg={error} dispatch={dispatch} />}
           {!error && !isLoading && (
             <Main>
-              <Quiz dispatch={dispatch} questions={questions} index={index} />
+              <Quiz
+                dispatch={dispatch}
+                question={questions}
+                index={index}
+                answer={answer}
+              />
               {/* <CountDown dispatch={dispatch} min={min} sec={sec} /> */}
+              {<ButtonNext dispatch={dispatch} answer={answer} />}
             </Main>
           )}
         </>

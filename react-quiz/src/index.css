@@ -71,8 +71,13 @@ h3 {
 .main {
   display: flex;
   flex-direction: column;
+  width: 50rem;
+  min-height: 50rem;
   gap: 2rem;
-  min-width: 40rem;
+}
+
+.question-container {
+  min-height: 5rem;
 }
 
 .input-container {
@@ -101,6 +106,7 @@ input {
   align-items: center;
   justify-content: center;
   gap: 1.8rem;
+  line-height: 1.2;
 }
 
 .answer-list {
@@ -123,7 +129,7 @@ input {
   cursor: pointer;
 }
 
-.btn--answer {
+.btn-answer {
   width: 100%;
   display: flex;
   align-items: center;
@@ -131,13 +137,25 @@ input {
   transition: all 0.3s;
 }
 
-.btn--answer:hover {
+.btn-answer:hover {
   background-color: #fff;
   color: #495057;
 }
 
 .answer {
   font-size: 1.4rem;
+}
+
+.answer-selected {
+  transform: translateX(10px);
+}
+
+.btn-answer.correct {
+  background-color: #66d9e8;
+}
+
+.btn-answer.wrong {
+  background-color: #ffa94d;
 }
 
 .btn--next {
