@@ -1,7 +1,6 @@
 export default function ButtonNext({ answer, dispatch, numQuestions, index }) {
   const hasAnswered = answer !== null;
-  console.log(numQuestions);
-  console.log(index);
+
   if (!hasAnswered) return null;
 
   return (

@@ -81,6 +81,8 @@ export default function App() {
     dispatch,
   ] = useReducer(reducer, initialState);
 
+  console.log(sec);
+
   const numQuestions = questions.length;
   const maxPoints = questions.reduce(
     (points, curPoints) => (points += curPoints.points),
