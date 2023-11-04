@@ -7,7 +7,7 @@ export default function ButtonNext({ answer, dispatch, numQuestions, index }) {
     <>
       {index + 1 < numQuestions ? (
         <button
-          className="btn"
+          className="btn btn-ui"
           onClick={() => dispatch({ type: "changeQuestion" })}
         >
           Next
