@@ -19,6 +19,7 @@ const initialState = {
   index: 0,
   answer: null,
   points: 0,
+  highscore: 0,
 };
 
 function reducer(state, action) {
@@ -55,6 +56,7 @@ function reducer(state, action) {
         answer: action.payload.answer,
         points: state.points + action.payload.answerPoints,
       };
+
     // return {
     //   ...state,
     //   answer: action.payload,
@@ -71,7 +73,16 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isOpen, questions, isLoading, error, index, answer, points } = state;
+  const {
+    isOpen,
+    questions,
+    isLoading,
+    error,
+    index,
+    answer,
+    points,
+    highscore,
+  } = state;
 
   const questionLength = questions.length;
   const maxPoints = questions.reduce((acc, curr) => (acc += curr.points), 0);
@@ -116,7 +127,13 @@ export default function App() {
             </>
           )}
 
-          {hasFinished && <Results />}
+          {hasFinished && (
+            <Results
+              points={points}
+              maxPoints={maxPoints}
+              highscore={highscore}
+            />
+          )}
         </Main>
       </>
     </div>

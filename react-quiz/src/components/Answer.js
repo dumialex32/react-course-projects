@@ -14,7 +14,10 @@ export default function Answer({
       onClick={() =>
         dispatch({
           type: "setAnswer",
-          payload: { answer: optionIndex, answerPoints: points },
+          payload: {
+            answer: optionIndex,
+            answerPoints: optionIndex === correctOption ? points : 0,
+          },
         })
       }
     >
