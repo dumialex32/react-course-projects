@@ -78,17 +78,24 @@ h3 {
 
 .question-container {
   min-height: 5rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
-.input-container {
+.progress {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 0.6rem;
+  width: 100%;
 }
 
-input {
+progress {
   grid-column: 1/-1;
+  width: 100%;
+  font-size: large;
+}
+
+::-webkit-progress-bar {
 }
 
 .question-num,
@@ -171,6 +178,7 @@ input {
   transform: translateX(25px);
 }
 
+.btn-results,
 .btn--next {
   align-self: flex-end;
 }

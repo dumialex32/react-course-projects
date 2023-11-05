@@ -1,23 +1,29 @@
 export default function Answer({
-  correctOption,
   option,
-  dispatch,
-  answerIndex,
   answer,
+  correctOption,
+  optionIndex,
+  dispatch,
+  points,
 }) {
   const hasAnswered = answer !== null;
+
   return (
     <li
-      onClick={() => {
-        dispatch({ type: "setAnswer", payload: answerIndex });
-      }}
+      className="answer-list"
+      onClick={() =>
+        dispatch({
+          type: "setAnswer",
+          payload: { answer: optionIndex, answerPoints: points },
+        })
+      }
     >
       <button
         className={`btn btn-answer ${
-          answerIndex === answer ? "answer-selected" : ""
+          optionIndex === answer ? "answer-selected" : ""
         } ${
           hasAnswered
-            ? answerIndex === correctOption
+            ? optionIndex === correctOption
               ? "correct"
               : "wrong"
             : ""
