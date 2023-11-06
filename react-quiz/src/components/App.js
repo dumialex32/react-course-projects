@@ -1,15 +1,15 @@
 import { useState, useEffect, useReducer } from "react";
-import { Header } from "./components/Header.js";
-import { Introduction } from "./components/Introduction.js";
-import { Main } from "./components/Main.js";
-import ButtonNext from "./components/ButtonNext.js";
-import { Quiz } from "./components/Quiz.js";
-import { Error } from "./components/Error.js";
-import { Loader } from "./components/Loader.js";
-import { Countdown } from "./components/Countdown.js";
-import { fetchQuestions } from "./fetchQuestions.js";
-import Results from "./components/Results.js";
-import ButtonReset from "./components/ButtonReset.js";
+import { Header } from "./Header.js";
+import { Introduction } from "./Introduction.js";
+import { Main } from "./Main.js";
+import ButtonNext from "./ButtonNext.js";
+import { Quiz } from "./Quiz.js";
+import { Error } from "./Error.js";
+import { Loader } from "./Loader.js";
+import { Countdown } from "./Countdown.js";
+import { fetchQuestions } from "../fetchQuestions.js";
+import Results from "./Results.js";
+import ButtonReset from "./ButtonReset.js";
 
 const initialState = {
   isOpen: false,
