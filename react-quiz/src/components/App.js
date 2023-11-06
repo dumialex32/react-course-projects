@@ -6,8 +6,8 @@ import ButtonNext from "./ButtonNext.js";
 import { Quiz } from "./Quiz.js";
 import { Error } from "./Error.js";
 import { Loader } from "./Loader.js";
-import { Countdown } from "./Countdown.js";
-import { fetchQuestions } from "../fetchQuestions.js";
+import { Timer } from "./Timer.js";
+import { fetchQuestions } from "./fetchQuestions.js";
 import Results from "./Results.js";
 import ButtonReset from "./ButtonReset.js";
 
@@ -21,7 +21,7 @@ const initialState = {
   answer: null,
   points: 0,
   highscore: 0,
-  secondsRemaining: 30,
+  secondsRemaining: 65,
 };
 
 const SECS = 30;
@@ -32,14 +32,14 @@ function reducer(state, action) {
       return {
         ...state,
         isOpen: action.payload,
-        // secondsRemaining: state.questions.length * SECS,
+        secondsRemaining: state.questions.length * SECS,
       };
 
     case "setCountdown":
       return {
         ...state,
         secondsRemaining: state.secondsRemaining - 1,
-        // isFinished: state.secondsRemaining === 0 ? true : false,
+        isFinished: state.secondsRemaining === 0 ? true : false,
       };
 
     case "setQuestions":
@@ -148,10 +148,7 @@ export default function App() {
                 index={index}
                 questionLength={questionLength}
               />
-              <Countdown
-                dispatch={dispatch}
-                secondsRemaining={secondsRemaining}
-              />
+              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
             </>
           )}
 

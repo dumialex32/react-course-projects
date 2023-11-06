@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-export function Countdown({ dispatch, secondsRemaining }) {
+export function Timer({ dispatch, secondsRemaining }) {
   console.log(secondsRemaining);
   const seconds = secondsRemaining % 60;
-  const minutes = Math.ceil(secondsRemaining / 60);
+  const minutes = Math.floor(secondsRemaining / 60);
   useEffect(() => {
     const timer = setInterval(() => {
       // secondsRemaining === 0 && clearInterval(timer);
