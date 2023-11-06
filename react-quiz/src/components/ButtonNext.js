@@ -4,7 +4,6 @@ export default function ButtonNext({
   questionLength,
   index,
 }) {
-  console.log(questionLength, index);
   const showResults = questionLength === index + 1;
 
   if (answer === null) return null;

@@ -5,7 +5,6 @@ export default function Progress({
   answer,
   maxPoints,
 }) {
-  console.log(Number(answer !== null));
   return (
     <div className="progress">
       <progress

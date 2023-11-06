@@ -9,7 +9,7 @@ import { Loader } from "./components/Loader.js";
 import { Countdown } from "./components/Countdown.js";
 import { fetchQuestions } from "./fetchQuestions.js";
 import Results from "./components/Results.js";
-import ButtonReset from "./ButtonReset.js";
+import ButtonReset from "./components/ButtonReset.js";
 
 const initialState = {
   isOpen: false,
@@ -21,19 +21,25 @@ const initialState = {
   answer: null,
   points: 0,
   highscore: 0,
-  secondsRemaining: 0,
+  secondsRemaining: 30,
 };
+
+const SECS = 30;
 
 function reducer(state, action) {
   switch (action.type) {
     case "setOpen":
-      return { ...state, isOpen: action.payload };
+      return {
+        ...state,
+        isOpen: action.payload,
+        // secondsRemaining: state.questions.length * SECS,
+      };
 
     case "setCountdown":
       return {
         ...state,
         secondsRemaining: state.secondsRemaining - 1,
-        isFinished: state.secondsRemaining === 0 ? true : false,
+        // isFinished: state.secondsRemaining === 0 ? true : false,
       };
 
     case "setQuestions":
