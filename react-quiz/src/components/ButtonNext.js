@@ -10,11 +10,24 @@ export default function ButtonNext({
   if (answer === null) return null;
 
   return (
-    <button
-      className="btn btn--next"
-      onClick={() => dispatch({ type: "setIndex" })}
-    >
-      {(showResults && "See Results") || "Next"}
-    </button>
+    <div>
+      {!showResults && (
+        <button
+          className="btn btn--next"
+          onClick={() => dispatch({ type: "setIndex" })}
+        >
+          Next
+        </button>
+      )}
+
+      {showResults && (
+        <button
+          className="btn btn-next"
+          onClick={() => dispatch({ type: "setResults" })}
+        >
+          See Results
+        </button>
+      )}
+    </div>
   );
 }

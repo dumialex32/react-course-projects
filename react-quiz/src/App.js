@@ -6,20 +6,22 @@ import ButtonNext from "./components/ButtonNext.js";
 import { Quiz } from "./components/Quiz.js";
 import { Error } from "./components/Error.js";
 import { Loader } from "./components/Loader.js";
-import { CountDown } from "./components/CountDown.js";
+import { Countdown } from "./components/Countdown.js";
 import { fetchQuestions } from "./fetchQuestions.js";
 import Results from "./components/Results.js";
+import ButtonReset from "./ButtonReset.js";
 
 const initialState = {
   isOpen: false,
-
   questions: [],
   error: "",
   isLoading: false,
+  isFinished: false,
   index: 0,
   answer: null,
   points: 0,
   highscore: 0,
+  secondsRemaining: 0,
 };
 
 function reducer(state, action) {
@@ -27,12 +29,12 @@ function reducer(state, action) {
     case "setOpen":
       return { ...state, isOpen: action.payload };
 
-    case "setCountDown":
-      if (state.sec === 0) {
-        return { ...state, sec: 59, min: state.min - 1 };
-      } else {
-        return { ...state, sec: state.sec - 1 };
-      }
+    case "setCountdown":
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        isFinished: state.secondsRemaining === 0 ? true : false,
+      };
 
     case "setQuestions":
       return { ...state, questions: action.payload };
@@ -55,6 +57,22 @@ function reducer(state, action) {
         ...state,
         answer: action.payload.answer,
         points: state.points + action.payload.answerPoints,
+      };
+
+    case "setResults":
+      return {
+        ...state,
+        highscore:
+          state.highscore > state.points ? state.highscore : state.points,
+        isFinished: true,
+      };
+
+    case "reset":
+      return {
+        ...initialState,
+        highscore: state.highscore,
+        isOpen: true,
+        questions: state.questions,
       };
 
     // return {
@@ -82,12 +100,12 @@ export default function App() {
     answer,
     points,
     highscore,
+    isFinished,
+    secondsRemaining,
   } = state;
 
   const questionLength = questions.length;
   const maxPoints = questions.reduce((acc, curr) => (acc += curr.points), 0);
-
-  const hasFinished = questionLength === index;
 
   useEffect(() => {
     fetchQuestions(dispatch);
@@ -106,7 +124,7 @@ export default function App() {
 
       <>
         <Main>
-          {isOpen && !hasFinished && (
+          {isOpen && !isFinished && (
             <>
               <Quiz
                 dispatch={dispatch}
@@ -124,15 +142,21 @@ export default function App() {
                 index={index}
                 questionLength={questionLength}
               />
+              <Countdown
+                dispatch={dispatch}
+                secondsRemaining={secondsRemaining}
+              />
             </>
           )}
 
-          {hasFinished && (
+          {isFinished && (
             <Results
               points={points}
               maxPoints={maxPoints}
               highscore={highscore}
-            />
+            >
+              <ButtonReset dispatch={dispatch} />
+            </Results>
           )}
         </Main>
       </>

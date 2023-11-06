@@ -179,7 +179,7 @@ progress {
 }
 
 .btn-results,
-.btn--next {
+.btn-next {
   align-self: flex-end;
 }
 
@@ -193,7 +193,7 @@ progress {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1.6rem;
   font-size: 2rem;
 }
 
